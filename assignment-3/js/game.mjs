@@ -7,6 +7,10 @@ let firstChoice;
 let secondChoice;
 export function start(app) {
   const { stage } = app;
+  const basicText = new Text('MEMORY CARD FLIP GAME');
+  basicText.y = 50;
+  basicText.x = 510;
+  app.stage.addChild(basicText);
   cards = drawCards(stage);
   stage.interactive = true;
   stage.on("pointerup", () => {
@@ -25,7 +29,7 @@ export function start(app) {
           stage.removeChild(secondChoice[1].view);
           cards = cards.filter((c) => !c.isOpen());
           if (cards.length === 0) {
-            let finalMessage = new Text('You cleared all cards in ##:##\nClick To Continue.');
+            let finalMessage = new Text('YOU WIN!!!');
             finalMessage.anchor.set(0.5);
             finalMessage.x = app.screen.width/2;
             finalMessage.y = app.screen.height/2;
@@ -52,10 +56,10 @@ export function start(app) {
 function drawCards(stage) {
   let cardNum = 0;
   const cards = [];
-  const offsetX = 10;
-  const offsetXY = 10;
-  const paddingX = 10;
-  const paddingY = 10;
+  const offsetX = 200;
+  const offsetXY = 120;
+  const paddingX = 15;
+  const paddingY = 15;
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 3; j++) {
       for (let c = 0; c < 2; c++) {
@@ -68,8 +72,8 @@ function drawCards(stage) {
   }
   shuffle(cards);
   let count = 0;
-  for (let c = 0; c < 6; c++) {
-    for (let r = 0; r < 4; r++) {
+  for (let c = 0; c < 8; c++) {
+    for (let r = 0; r < 3; r++) {
       let card = cards[count];
       card.view.x = c * (WIDTH + paddingX) + offsetX;
       card.view.y = r * (HEIGHT + paddingY) + offsetXY;
