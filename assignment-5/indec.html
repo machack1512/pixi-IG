@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.5.3/browser/pixi.min.js"></script>
+    <title>DOREMON</title>
+    <script>
+        let app;
+        let player;
+        let bullets = [];
+        let bulletSpeed = 8;
+        window.onload = function ()
+        {
+            app = new PIXI.Application(
+            {
+                width: 800,
+                height: 600,
+                backgroundColor: 0xAAAAAA
+            }
+        );
+        document.body.appendChild(app.view);
+        app.stage.interactive = true;
+        document.body.addEventListener("pointerdown",fireBullet);
+
+
+        app.loader
+        .add("sprite01", "bull.png")
+        .add("sprite02", "countra.png");
+
+        app.loader.onProgress.add(showProgress);
+        app.loader.onComplete.add(doneLoading);
+        app.loader.onError.add(reportError);
+
+        function showProgress(e)
+        {
+           console.log(e.progress);
+        }
+        function reportError(e)
+        {
+            console.log("ERROR: " + e.message);
+        }
+        function doneLoading(e)
+        {
+            console.log("DONE LOADING");
+ 
+        }
+            player = new PIXI.Sprite.from("countra.png");
+            player.anchor.set(0.5);
+            player.width = 100;
+            player.height = 80;
+            player.x = app.view.width / 2;
+            player.y = app.view.height / 2;
+            app.stage.addChild(player); 
+
+            const basicText = new PIXI.Text('MOVE: A/S/W/D || FIRE: RIGHT-CLICK || JUMP: SPACE');
+            basicText.y = 50;
+     basicText.x = 110;
+     app.stage.addChild(basicText);
+
+
+        window.addEventListener("keydown", keysDown);
+        window.addEventListener("keyup", keysUp);
+        app.ticker.add(keysloop);
+        app.ticker.add(gameLoop);
+        keysDiv = document.querySelector("#keys");
+        }
+        function fireBullet(e)
+        {
+            console.log("FIRE!");
+            let bullet = createBullet();
+            bullets.push(bullet);
+
+        }
+        function createBullet()
+        {
+            let bullet = new PIXI.Sprite.from("bull.png");
+            bullet.anchor.set(0.5);
+            bullet.x = player.x+30;
+            bullet.y = player.y-13;
+            bullet.speed = bulletSpeed;
+            app.stage.addChild(bullet);
+            return bullet;
+         }
+         function gameLoop(delta)
+         {
+            updatebullet()
+          }
+         function updatebullet(delta){
+            for(let i=0;i<bullets.length;i++)
+            {
+                bullets[i].position.x += bullets[i].speed;
+            }
+         }
+        function keysDown(e)
+        {
+            keys[e.keyCode] = true;
+        }
+        function keysUp(e)
+        {
+            keys[e.keyCode] = false;
+        }
+        function keysloop()
+        {
+            if(keys["87"]) {player.y -= 5;}
+            if(keys["65"]) {player.x -= 5;}
+            if(keys["83"]) {player.y += 5;}
+            if(keys["68"]) {player.x += 5;}
+            if(keys["32"]) {player.y -= 15;}
+        }
+    </script>
+</head>
+<body>
+    <div id="keys"></div>
+</body>
+</html>
