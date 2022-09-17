@@ -7,9 +7,9 @@ let firstChoice;
 let secondChoice;
 export function start(app) {
   const { stage } = app;
-  const basicText = new Text('MEMORY FLIP GAME!!!');
+  const basicText = new Text('MEMORY CARD FLIP GAME');
   basicText.y = 50;
-  basicText.x = 500;
+  basicText.x = 510;
   app.stage.addChild(basicText);
   cards = drawCards(stage);
   stage.interactive = true;
@@ -29,7 +29,7 @@ export function start(app) {
           stage.removeChild(secondChoice[1].view);
           cards = cards.filter((c) => !c.isOpen());
           if (cards.length === 0) {
-            let finalMessage = new Text('YOU WON!!! CLICK TO CONTINUE..');
+            let finalMessage = new Text('YOU WIN!!!');
             finalMessage.anchor.set(0.5);
             finalMessage.x = app.screen.width/2;
             finalMessage.y = app.screen.height/2;
@@ -56,8 +56,8 @@ export function start(app) {
 function drawCards(stage) {
   let cardNum = 0;
   const cards = [];
-  const offsetX = 180;
-  const offsetXY = 130;
+  const offsetX = 200;
+  const offsetXY = 120;
   const paddingX = 15;
   const paddingY = 15;
   for (let i = 0; i < 4; i++) {
